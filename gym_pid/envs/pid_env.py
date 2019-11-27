@@ -71,12 +71,14 @@ class pidEnv(gym.Env):
         self.Kp = 1.0
         self.Ki = 1.0
         self.Kd = 1.0
-        self.state = np.ones(4)
+        self.state = np.array([2.2, 1.5, 0.01, 10])
         self.prev_error = 0.0
         self.new_error = 0.0
         self.done = False
 
     def step(self, action, update=0):
+        
+        print(self.new_error)
         
         temp_Kp = self.Kp
         temp_Ki = self.Ki
