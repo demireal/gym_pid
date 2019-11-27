@@ -18,6 +18,50 @@ from matplotlib import pyplot as plt
 NUM_OF_ACTIONS = 7
 INPUT_SHAPE = (4,)
 
+def test_pid(P=0.2, I=0.0, D=0.0, L=50):
+    """Self-test PID class
+    .. note::
+        ...
+        for i in range(1, END):
+            pid.update(feedback)
+            output = pid.output
+            if pid.SetPoint > 0:
+                feedback += (output - (1/i))
+            if i>9:
+                pid.SetPoint = 1
+            time.sleep(0.02)
+        ---
+    """
+    pid = PID.PID(P, I, D)
+
+    pid.SetPoint = 0.0
+    pid.setSampleTime(0.01)
+
+    END = L
+    feedback = 0
+
+    feedback_list = []
+    time_list = []
+    setpoint_list = []
+
+    for i in range(1, END):
+        pid.update(feedback)
+        output = pid.output
+        if pid.SetPoint > 0:
+            feedback += (output - (1 / i))
+        if i > 9:
+            pid.SetPoint = 1
+        time.sleep(0.02)
+
+        feedback_list.append(feedback)
+        setpoint_list.append(pid.SetPoint)
+        time_list.append(i)
+
+    error = np.asarray(setpoint_list) - np.asarray(feedback_list)
+    error = np.clip(error, -50, 50)
+    error_std = np.std(error)
+    return error_std
+
 class pidEnv(gym.Env):
     metadata = {'render.modes': ['human']}
 
@@ -50,7 +94,7 @@ class pidEnv(gym.Env):
             temp_Ki = self.Ki
             temp_Kd = self.Kd
         
-        self.new_error = self.test_pid(temp_Kp, temp_Ki, temp_Kd, 50)
+        self.new_error = test_pid(temp_Kp, temp_Ki, temp_Kd, 50)
         reward = (self.prev_error - self.new_error)/50
 
         self.state = np.array([temp_Kp, temp_Ki, temp_Kd, reward])
@@ -77,46 +121,4 @@ class pidEnv(gym.Env):
     def render(self, mode='human'):
         print('Error Std. Dev.: ' + self.new_error)
 
-    def test_pid(P=0.2, I=0.0, D=0.0, L=50):
-        """Self-test PID class
-        .. note::
-            ...
-            for i in range(1, END):
-                pid.update(feedback)
-                output = pid.output
-                if pid.SetPoint > 0:
-                    feedback += (output - (1/i))
-                if i>9:
-                    pid.SetPoint = 1
-                time.sleep(0.02)
-            ---
-        """
-        pid = PID.PID(P, I, D)
 
-        pid.SetPoint = 0.0
-        pid.setSampleTime(0.01)
-
-        END = L
-        feedback = 0
-
-        feedback_list = []
-        time_list = []
-        setpoint_list = []
-
-        for i in range(1, END):
-            pid.update(feedback)
-            output = pid.output
-            if pid.SetPoint > 0:
-                feedback += (output - (1 / i))
-            if i > 9:
-                pid.SetPoint = 1
-            time.sleep(0.02)
-
-            feedback_list.append(feedback)
-            setpoint_list.append(pid.SetPoint)
-            time_list.append(i)
-
-        error = np.asarray(setpoint_list) - np.asarray(feedback_list)
-        error = np.clip(error, -50, 50)
-        error_std = np.std(error)
-        return error_std
