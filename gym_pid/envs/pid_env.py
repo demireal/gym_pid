@@ -65,12 +65,12 @@ def test_pid(P=0.2, I=0.0, D=0.0, L=50):
 class pidEnv(gym.Env):
     metadata = {'render.modes': ['human']}
 
-    def __init__(self):
+    def __init__(self, Kp, Ki, Kd):
         self.action_space = spaces.Discrete(NUM_OF_ACTIONS)
         self.observation_space = spaces.Box(low=-100, high=100, shape=INPUT_SHAPE, dtype='float64')
-        self.Kp = 0.6
-        self.Ki = 3
-        self.Kd = 0.01
+        self.Kp = Kp
+        self.Ki = Ki
+        self.Kd = Kd
         self.state = np.array([self.Kp, self.Ki, self.Kd])
         self.prev_error = 0.0
         self.new_error = 0.0
@@ -113,10 +113,10 @@ class pidEnv(gym.Env):
 
         return self.state, reward, self.done, {}
 
-    def reset(self):
-        self.Kp = 0.6
-        self.Ki = 3
-        self.Kd = 0.01
+    def reset(self, Kp, Ki, Kd):
+        self.Kp = Kp
+        self.Ki = Ki
+        self.Kd = Kd
         self.state = np.array([self.Kp, self.Ki, self.Kd])
         self.prev_error = 0.0
         self.new_error = 0.0
