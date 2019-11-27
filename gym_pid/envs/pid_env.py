@@ -24,9 +24,9 @@ class pidEnv(gym.Env):
     def __init__(self):
         self.action_space = spaces.Discrete(NUM_OF_ACTIONS)
         self.observation_space = spaces.Box(low=-100, high=100, shape=INPUT_SHAPE, dtype='float64')
-        self.Kp = 1
-        self.Ki = 1
-        self.Kd = 1
+        self.Kp = 1.0
+        self.Ki = 1.0
+        self.Kd = 1.0
         self.state = np.ones((4, 1))
         self.prev_error = 0.0
         self.new_error = 0.0
@@ -49,8 +49,11 @@ class pidEnv(gym.Env):
             temp_Kp = self.Kp
             temp_Ki = self.Ki
             temp_Kd = self.Kd
-
-        self.new_error = self.test_pid(P=temp_Kp, I=temp_Ki, D=temp_Kd, L=50)
+        
+        print(temp_Kp)
+        print(temp_Ki)
+        print(temp_Kd)
+        self.new_error = self.test_pid(temp_Kp, temp_Ki, temp_Kd, L=50)
         reward = (self.prev_error - self.new_error)/50
 
         self.state = np.array([[temp_Kp], [temp_Ki], [temp_Kd], [reward]])
