@@ -15,7 +15,7 @@ from matplotlib import pyplot as plt
 
 # Each state is an image. State space is 2D.
 
-NUM_OF_ACTIONS = 6
+NUM_OF_ACTIONS = 7
 INPUT_SHAPE = (4, 1)
 
 class navigate2DEnv(gym.Env):
