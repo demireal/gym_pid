@@ -100,7 +100,7 @@ class pidEnv(gym.Env):
         self.new_error = test_pid(temp_Kp, temp_Ki, temp_Kd, 50)
         reward = (self.prev_error - self.new_error)/50
 
-        self.state = np.array([temp_Kp, temp_Ki, temp_Kd, reward])
+        self.state = np.array([temp_Kp, temp_Ki, temp_Kd, self.new_error])
         
         if update == 1:
             self.prev_error = self.new_error
@@ -112,10 +112,10 @@ class pidEnv(gym.Env):
         return self.state, reward, self.done, {}
 
     def reset(self):
-        self.Kp = 1
-        self.Ki = 1
-        self.Kd = 1
-        self.state = np.ones((4, 1))
+        self.Kp = 1.0
+        self.Ki = 2.0
+        self.Kd = 3.0
+        self.state = np.array([2.2, 1.5, 0.01, 10])
         self.prev_error = 0.0
         self.new_error = 0.0
         self.done = False
