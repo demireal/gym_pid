@@ -70,8 +70,8 @@ class pidEnv(gym.Env):
         self.observation_space = spaces.Box(low=-100, high=100, shape=INPUT_SHAPE, dtype='float64')
         self.Kp = 1.0
         self.Ki = 2.0
-        self.Kd = 3.0
-        self.state = np.array([2.2, 1.5, 0.01, 10])
+        self.Kd = 0.1
+        self.state = np.array([self.Kp, self.Ki, self.Kd, 10])
         self.prev_error = 0.0
         self.new_error = 0.0
         self.done = False
@@ -114,8 +114,8 @@ class pidEnv(gym.Env):
     def reset(self):
         self.Kp = 1.0
         self.Ki = 2.0
-        self.Kd = 3.0
-        self.state = np.array([2.2, 1.5, 0.01, 10])
+        self.Kd = 0.1
+        self.state = np.array([self.Kp, self.Ki, self.Kd, 10])
         self.prev_error = 0.0
         self.new_error = 0.0
         self.done = False
