@@ -125,5 +125,6 @@ class pidEnv(gym.Env):
 
     def render(self, mode='human'):
         print('Error Std. Dev.: ', self.new_error)
+        print('P: ', self.Kp, 'I: ', self.Ki, 'D: ', self.Kd)
 
 
