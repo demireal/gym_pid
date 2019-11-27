@@ -83,17 +83,17 @@ class pidEnv(gym.Env):
         temp_Kd = self.Kd
         
         if action == 0:  # increase P
-            temp_Kp = 1.2*self.Kp
+            temp_Kp = 1.1*self.Kp
         elif action == 1:  # decrease P
-            temp_Kp = 0.8*self.Kp
+            temp_Kp = 0.9*self.Kp
         elif action == 2:  # increase I
-            temp_Ki = 1.2*self.Ki
+            temp_Ki = 1.1*self.Ki
         elif action == 3:  # decrease I
-            temp_Ki = 0.8*self.Ki
+            temp_Ki = 0.9*self.Ki
         elif action == 4:  # increase D
-            temp_Kd = 1.2*self.Kd
+            temp_Kd = 1.1*self.Kd
         elif action == 5:  # decrease D
-            temp_Kd = 0.8*self.Kd
+            temp_Kd = 0.9*self.Kd
         
         self.new_error = test_pid(temp_Kp, temp_Ki, temp_Kd, 20)
         reward = (self.prev_error - self.new_error) > 0
@@ -102,10 +102,14 @@ class pidEnv(gym.Env):
         
         if update == 1:
             self.prev_error = self.new_error
-            self.done = self.prev_error < 0.1
+            self.done = self.prev_error < 0.15
             self.Kp = temp_Kp
             self.Ki = temp_Ki
             self.Kd = temp_Kd
+            
+        if self.done:
+            print('P: ', self.Kp, 'I: ', self.Ki, 'D: ', self.Kd)
+            
 
         return self.state, reward, self.done, {}
 
