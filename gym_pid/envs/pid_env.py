@@ -21,7 +21,7 @@ INPUT_SHAPE = (4, 1)
 class pidEnv(gym.Env):
     metadata = {'render.modes': ['human']}
 
-    def __init__(self, path, is_test=0):
+    def __init__(self):
         self.action_space = spaces.Discrete(NUM_OF_ACTIONS)
         self.observation_space = spaces.Box(low=-100, high=100, shape=INPUT_SHAPE, dtype='float64')
         self.Kp = 1
