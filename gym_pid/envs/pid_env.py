@@ -68,9 +68,9 @@ class pidEnv(gym.Env):
     def __init__(self):
         self.action_space = spaces.Discrete(NUM_OF_ACTIONS)
         self.observation_space = spaces.Box(low=-100, high=100, shape=INPUT_SHAPE, dtype='float64')
-        self.Kp = 0.4
-        self.Ki = 5
-        self.Kd = 0.05
+        self.Kp = 0.6
+        self.Ki = 3
+        self.Kd = 0.01
         self.state = np.array([self.Kp, self.Ki, self.Kd])
         self.prev_error = 0.0
         self.new_error = 0.0
@@ -83,17 +83,17 @@ class pidEnv(gym.Env):
         temp_Kd = self.Kd
         
         if action == 0:  # increase P
-            temp_Kp = 1.1*self.Kp
+            temp_Kp = 1.05*self.Kp
         elif action == 1:  # decrease P
-            temp_Kp = 0.9*self.Kp
+            temp_Kp = 0.95*self.Kp
         elif action == 2:  # increase I
-            temp_Ki = 1.1*self.Ki
+            temp_Ki = 1.05*self.Ki
         elif action == 3:  # decrease I
-            temp_Ki = 0.9*self.Ki
+            temp_Ki = 0.95*self.Ki
         elif action == 4:  # increase D
-            temp_Kd = 1.1*self.Kd
+            temp_Kd = 1.05*self.Kd
         elif action == 5:  # decrease D
-            temp_Kd = 0.9*self.Kd
+            temp_Kd = 0.95*self.Kd
         
         self.new_error = test_pid(temp_Kp, temp_Ki, temp_Kd, 20)
         reward = (self.prev_error - self.new_error) > 0
@@ -114,9 +114,9 @@ class pidEnv(gym.Env):
         return self.state, reward, self.done, {}
 
     def reset(self):
-        self.Kp = 0.4
-        self.Ki = 5
-        self.Kd = 0.05
+        self.Kp = 0.6
+        self.Ki = 3
+        self.Kd = 0.01
         self.state = np.array([self.Kp, self.Ki, self.Kd])
         self.prev_error = 0.0
         self.new_error = 0.0
