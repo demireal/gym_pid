@@ -53,7 +53,7 @@ class pidEnv(gym.Env):
         print(temp_Kp)
         print(temp_Ki)
         print(temp_Kd)
-        self.new_error = self.test_pid(temp_Kp, temp_Ki, temp_Kd, L=50)
+        self.new_error = self.test_pid(temp_Kp, temp_Ki, temp_Kd, 50)
         reward = (self.prev_error - self.new_error)/50
 
         self.state = np.array([[temp_Kp], [temp_Ki], [temp_Kd], [reward]])
