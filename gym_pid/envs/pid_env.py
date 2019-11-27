@@ -83,17 +83,17 @@ class pidEnv(gym.Env):
         temp_Kd = self.Kd
         
         if action == 0:  # increase P
-            temp_Kp = 1.05*self.Kp
+            temp_Kp = sorted([1e-4, 1.02*self.Kp, 100])[1]
         elif action == 1:  # decrease P
-            temp_Kp = 0.95*self.Kp
+            temp_Kp = sorted([1e-4, 0.98*self.Kp, 100])[1]
         elif action == 2:  # increase I
-            temp_Ki = 1.05*self.Ki
+            temp_Ki = sorted([1e-4, 1.02*self.Ki, 100])[1]
         elif action == 3:  # decrease I
-            temp_Ki = 0.95*self.Ki
+            temp_Ki = sorted([1e-4, 0.98*self.Ki, 100])[1]
         elif action == 4:  # increase D
-            temp_Kd = 1.05*self.Kd
+            temp_Kd = sorted([1e-4, 1.02*self.Kd, 100])[1]
         elif action == 5:  # decrease D
-            temp_Kd = 0.95*self.Kd
+            temp_Kd = sorted([1e-4, 0.98*self.Kd, 100])[1]
         
         self.new_error = test_pid(temp_Kp, temp_Ki, temp_Kd, 20)
         reward = (self.prev_error - self.new_error) > 0
