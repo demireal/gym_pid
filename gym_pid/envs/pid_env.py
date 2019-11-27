@@ -16,7 +16,7 @@ from matplotlib import pyplot as plt
 # Each state is an image. State space is 2D.
 
 NUM_OF_ACTIONS = 7
-INPUT_SHAPE = (4, 1)
+INPUT_SHAPE = (4,)
 
 class pidEnv(gym.Env):
     metadata = {'render.modes': ['human']}
@@ -27,7 +27,7 @@ class pidEnv(gym.Env):
         self.Kp = 1.0
         self.Ki = 1.0
         self.Kd = 1.0
-        self.state = np.ones((4, 1))
+        self.state = np.ones(4)
         self.prev_error = 0.0
         self.new_error = 0.0
         self.done = False
@@ -53,7 +53,7 @@ class pidEnv(gym.Env):
         self.new_error = self.test_pid(temp_Kp, temp_Ki, temp_Kd, 50)
         reward = (self.prev_error - self.new_error)/50
 
-        self.state = np.array([[temp_Kp], [temp_Ki], [temp_Kd], [reward]])
+        self.state = np.array([temp_Kp, temp_Ki, temp_Kd, reward])
         
         if update == 1:
             self.prev_error = self.new_error
