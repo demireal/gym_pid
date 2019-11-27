@@ -58,7 +58,7 @@ def test_pid(P=0.2, I=0.0, D=0.0, L=50):
         time_list.append(i)
 
     error = np.asarray(setpoint_list) - np.asarray(feedback_list)
-    error = np.clip(error, -50, 50)
+    #error = np.clip(error, -50, 50)
     error_std = np.std(error)
     return error_std
 
@@ -98,7 +98,7 @@ class pidEnv(gym.Env):
             temp_Kd = 0.9*self.Kd
         
         self.new_error = test_pid(temp_Kp, temp_Ki, temp_Kd, 50)
-        reward = (self.prev_error - self.new_error)/50
+        reward = (self.prev_error - self.new_error) > 0
 
         self.state = np.array([temp_Kp, temp_Ki, temp_Kd, self.new_error])
         
