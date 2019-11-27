@@ -95,7 +95,7 @@ class pidEnv(gym.Env):
         elif action == 5:  # decrease D
             temp_Kd = sorted([1e-4, 0.98*self.Kd, 100])[1]
         
-        self.new_error = test_pid(temp_Kp, temp_Ki, temp_Kd, 20)
+        self.new_error = test_pid(temp_Kp, temp_Ki, temp_Kd, 50)
         reward = np.tanh((self.prev_error - self.new_error)/self.prev_error)
 
         self.state = np.array([temp_Kp, temp_Ki, temp_Kd])
