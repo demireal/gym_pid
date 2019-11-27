@@ -77,29 +77,23 @@ class pidEnv(gym.Env):
         self.done = False
 
     def step(self, action, update=0):
-        if action == 1:  # increase P
-            temp_Kp = 1.1*self.Kp
-        elif action == 2:  # decrease P
-            temp_Kp = 0.9*self.Kp
-        elif action == 3:  # increase I
-            temp_Ki = 1.1*self.Ki
-        elif action == 4:  # decrease I
-            temp_Ki = 0.9*self.Ki
-        elif action == 5:  # increase D
-            temp_Kd = 1.1*self.Kd
-        elif action == 6:  # decrease D
-            temp_Kd = 0.9*self.Kd
-        else:
-            temp_Kp = self.Kp
-            temp_Ki = self.Ki
-            temp_Kd = self.Kd
         
-        print(temp_Kp)
-        print(type(temp_Kp))
-        print(temp_Ki)
-        print(type(temp_Ki))
-        print(temp_Kd)
-        print(type(temp_Kd))
+        temp_Kp = self.Kp
+        temp_Ki = self.Ki
+        temp_Kd = self.Kd
+        
+        if action == 0:  # increase P
+            temp_Kp = 1.1*self.Kp
+        elif action == 1:  # decrease P
+            temp_Kp = 0.9*self.Kp
+        elif action == 2:  # increase I
+            temp_Ki = 1.1*self.Ki
+        elif action == 3:  # decrease I
+            temp_Ki = 0.9*self.Ki
+        elif action == 4:  # increase D
+            temp_Kd = 1.1*self.Kd
+        elif action == 5:  # decrease D
+            temp_Kd = 0.9*self.Kd
         
         self.new_error = test_pid(temp_Kp, temp_Ki, temp_Kd, 50)
         reward = (self.prev_error - self.new_error)/50
