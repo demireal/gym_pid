@@ -69,8 +69,8 @@ class pidEnv(gym.Env):
         self.action_space = spaces.Discrete(NUM_OF_ACTIONS)
         self.observation_space = spaces.Box(low=-100, high=100, shape=INPUT_SHAPE, dtype='float64')
         self.Kp = 1.0
-        self.Ki = 1.0
-        self.Kd = 1.0
+        self.Ki = 2.0
+        self.Kd = 3.0
         self.state = np.array([2.2, 1.5, 0.01, 10])
         self.prev_error = 0.0
         self.new_error = 0.0
