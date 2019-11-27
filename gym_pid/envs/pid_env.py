@@ -18,7 +18,7 @@ from matplotlib import pyplot as plt
 NUM_OF_ACTIONS = 7
 INPUT_SHAPE = (4, 1)
 
-class navigate2DEnv(gym.Env):
+class pidEnv(gym.Env):
     metadata = {'render.modes': ['human']}
 
     def __init__(self, path, is_test=0):
