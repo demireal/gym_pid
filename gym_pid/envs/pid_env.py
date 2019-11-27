@@ -16,7 +16,7 @@ from matplotlib import pyplot as plt
 # Each state is an image. State space is 2D.
 
 NUM_OF_ACTIONS = 7
-INPUT_SHAPE = (4,)
+INPUT_SHAPE = (3,)
 
 def test_pid(P=0.2, I=0.0, D=0.0, L=50):
     """Self-test PID class
@@ -71,7 +71,7 @@ class pidEnv(gym.Env):
         self.Kp = 1.0
         self.Ki = 1.5
         self.Kd = 0.01
-        self.state = np.array([self.Kp, self.Ki, self.Kd, 10])
+        self.state = np.array([self.Kp, self.Ki, self.Kd])
         self.prev_error = 0.0
         self.new_error = 0.0
         self.done = False
@@ -83,22 +83,22 @@ class pidEnv(gym.Env):
         temp_Kd = self.Kd
         
         if action == 0:  # increase P
-            temp_Kp = 1.1*self.Kp
+            temp_Kp = 1.05*self.Kp
         elif action == 1:  # decrease P
-            temp_Kp = 0.9*self.Kp
+            temp_Kp = 0.95*self.Kp
         elif action == 2:  # increase I
-            temp_Ki = 1.1*self.Ki
+            temp_Ki = 1.05*self.Ki
         elif action == 3:  # decrease I
-            temp_Ki = 0.9*self.Ki
+            temp_Ki = 0.95*self.Ki
         elif action == 4:  # increase D
-            temp_Kd = 1.1*self.Kd
+            temp_Kd = 1.05*self.Kd
         elif action == 5:  # decrease D
-            temp_Kd = 0.9*self.Kd
+            temp_Kd = 0.95*self.Kd
         
         self.new_error = test_pid(temp_Kp, temp_Ki, temp_Kd, 20)
         reward = (self.prev_error - self.new_error) > 0
 
-        self.state = np.array([temp_Kp, temp_Ki, temp_Kd, self.new_error])
+        self.state = np.array([temp_Kp, temp_Ki, temp_Kd])
         
         if update == 1:
             self.prev_error = self.new_error
@@ -113,7 +113,7 @@ class pidEnv(gym.Env):
         self.Kp = 1.0
         self.Ki = 2.0
         self.Kd = 0.1
-        self.state = np.array([self.Kp, self.Ki, self.Kd, 10])
+        self.state = np.array([self.Kp, self.Ki, self.Kd])
         self.prev_error = 0.0
         self.new_error = 0.0
         self.done = False
