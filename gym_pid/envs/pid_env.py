@@ -94,6 +94,13 @@ class pidEnv(gym.Env):
             temp_Ki = self.Ki
             temp_Kd = self.Kd
         
+        print(temp_Kp)
+        print(type(temp_Kp))
+        print(temp_Ki)
+        print(type(temp_Ki))
+        print(temp_Kd)
+        print(type(temp_Kd))
+        
         self.new_error = test_pid(temp_Kp, temp_Ki, temp_Kd, 50)
         reward = (self.prev_error - self.new_error)/50
 
