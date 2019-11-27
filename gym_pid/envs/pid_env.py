@@ -32,7 +32,7 @@ class pidEnv(gym.Env):
         self.new_error = 0.0
         self.done = False
 
-    def step(self, action):
+    def step(self, action, update=0):
         if action == 1:  # increase P
             temp_Kp = 1.1*self.Kp
         elif action == 2:  # decrease P
@@ -51,16 +51,16 @@ class pidEnv(gym.Env):
             temp_Kd = self.Kd
 
         self.new_error = self.test_pid(P=temp_Kp, I=temp_Ki, D=temp_Kd, L=50)
-
-        self.Kp = temp_Kp
-        self.Ki = temp_Ki
-        self.Kd = temp_Kd
-
         reward = (self.prev_error - self.new_error)/50
 
-        self.state = np.array([[self.Kp], [self.Ki], [self.Kd], [reward]])
-        self.prev_error = self.new_error
-        self.done = self.prev_error < 0.1
+        self.state = np.array([[temp_Kp], [temp_Ki], [temp_Kd], [reward]])
+        
+        if update == 1:
+            self.prev_error = self.new_error
+            self.done = self.prev_error < 0.1
+            self.Kp = temp_Kp
+            self.Ki = temp_Ki
+            self.Kd = temp_Kd
 
         return self.state, reward, self.done, {}
 
