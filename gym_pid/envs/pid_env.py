@@ -114,6 +114,9 @@ class pidEnv(gym.Env):
         return self.state, reward, self.done, {}
 
     def reset(self):
+        self.Kp = 0.4
+        self.Ki = 4
+        self.Kd = 0.02
         self.state = np.array([self.Kp, self.Ki, self.Kd])
         self.prev_error = 0.0
         self.new_error = 0.0
