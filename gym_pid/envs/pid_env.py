@@ -78,8 +78,6 @@ class pidEnv(gym.Env):
 
     def step(self, action, update=0):
         
-        print(self.new_error)
-        
         temp_Kp = self.Kp
         temp_Ki = self.Ki
         temp_Kd = self.Kd
