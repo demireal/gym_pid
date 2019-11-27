@@ -120,6 +120,6 @@ class pidEnv(gym.Env):
         return self.state
 
     def render(self, mode='human'):
-        print('Error Std. Dev.: ' + self.new_error)
+        print('Error Std. Dev.: ', self.new_error)
 
 
